@@ -3,7 +3,7 @@
 import os
 import sys
 import threading
-import urllib,urllib2
+import urllib,urllib2,cookielib
 import smtplib
 import ftplib
 import datetime,time
@@ -51,9 +51,15 @@ hdr5 = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/
        'Connection': 'keep-alive'}
 hdr = random.choice([hdr1,hdr2,hdr3,hdr4,hdr5])
 req = urllib2.Request(site, headers=hdr)
-response=urllib2.urlopen(req)
+
+
+cj = cookielib.CookieJar()
+opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+
+response = opener.open(req)
 content = response.read()
 response.close()
+
 
 page_soup = soup(content,"html.parser")
 xyz  = page_soup.findAll("div",{"class" : "productInfo"})
@@ -138,9 +144,12 @@ while y != 0 :
 
     hdr = random.choice([hdr1,hdr2,hdr3,hdr4,hdr5])
     req = urllib2.Request(site, headers=hdr)
-    response=urllib2.urlopen(req)
+    cj = cookielib.CookieJar()
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    response = opener.open(req)
     content = response.read()
     response.close()
+    
     print site
     page_soup = soup(content,"html.parser")
     xyz  = page_soup.findAll("div",{"class" : "productInfo"})
