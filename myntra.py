@@ -54,7 +54,7 @@ req = urllib2.Request(site, headers=hdr)
 
 
 cj = cookielib.CookieJar()
-opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))				# Added cookie handling function while url opening due to new myntra weird redirect behaviour
 
 response = opener.open(req)
 content = response.read()
